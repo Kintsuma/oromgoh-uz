@@ -1,0 +1,806 @@
+<title>Oromgoh.uz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+__CSS__
+/* ---- 3-versiya qo'shimchalari ---- */
+.sections{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+@media (max-width:640px){.sections{display:flex;overflow-x:auto;padding-bottom:4px}}
+.sections button{min-width:96px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.langs{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.langs button{border:0;background:none;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted)}
+.langs button[aria-pressed="true"]{background:var(--lapis);color:var(--on-accent)}
+.map{width:100%;height:auto;display:block}
+.map path.c{stroke:var(--panel);stroke-width:.6;cursor:pointer;transition:opacity .15s}
+.map path.c.none{fill:var(--line);cursor:default}
+.map path.c:hover{opacity:.8}
+.map path.c[data-sel="1"]{stroke:var(--ink);stroke-width:1.6}
+.map path.nb{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+.map circle.dot{stroke:var(--panel);stroke-width:1;cursor:pointer}
+.map text.lb{font-family:var(--mono);font-size:11px;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:3px;pointer-events:none;text-anchor:middle}
+.maplegend{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.maplegend .ramp{display:flex;height:10px;width:200px;border-radius:5px;overflow:hidden}
+.maplegend .ramp i{flex:1}
+.mapinfo{font-size:14px;min-height:22px}
+.mapinfo b{font-family:var(--mono)}
+.cmp-pick{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:end}
+@media (max-width:620px){.cmp-pick{grid-template-columns:minmax(0,1fr)}}
+.cmp-pick label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+table.vs{min-width:560px}
+table.vs td.metric{color:var(--muted)}
+table.vs td.va,table.vs td.vb{font-family:var(--mono);font-variant-numeric:tabular-nums}
+table.vs .mini{display:block;height:5px;border-radius:3px;background:var(--line);margin-top:4px;overflow:hidden}
+table.vs .mini i{display:block;height:100%}
+table.vs th.ha{color:var(--lapis)} table.vs th.hb{color:var(--zar)}
+.win{font-weight:700}
+.seasons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.seasons{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.season{background:var(--bg);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;border-top:4px solid var(--c)}
+.season .nm{font-size:13px;color:var(--muted);font-weight:600}
+.season b{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.season small{color:var(--muted);font-family:var(--mono);font-size:12px}
+.season.top{outline:2px solid var(--c)}
+.fc-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.fc-nums{grid-template-columns:minmax(0,1fr)}}
+.clusters{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.cl{border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;border-top:4px solid var(--c)}
+.cl h3{font-size:16px;font-weight:700}
+.cl .cnt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cl .cnt b{font-family:var(--display);font-size:26px;font-variant-numeric:tabular-nums}
+.cl .cnt span{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.cl dl{margin:0;display:grid;grid-template-columns:auto auto;gap:4px 12px;font-size:13px}
+.cl dt{color:var(--muted)} .cl dd{margin:0;text-align:right;font-family:var(--mono)}
+.parts.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.parts.four{grid-template-columns:minmax(0,1fr)}}
+.tag.tree{background:var(--zar-soft);color:var(--zar)}
+.tag.dest{background:var(--line);color:var(--ink)}
+.big.tree{color:var(--zar)}
+.treebox{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.treebox svg{display:block;min-width:720px;width:100%;height:auto}
+.treebox rect.nd{fill:var(--panel);stroke:var(--line);stroke-width:1}
+.treebox rect.nd.on{stroke:var(--zar);stroke-width:2.5}
+.treebox line.ed{stroke:var(--line);stroke-width:1.5}
+.treebox line.ed.on{stroke:var(--zar);stroke-width:3}
+.treebox text{font-family:var(--body);font-size:12px;fill:var(--ink)}
+.treebox text.sm{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.treebox text.el{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.dest-list{display:flex;flex-direction:column;gap:4px;max-width:720px}
+.part.wide{grid-column:1/-1}
+#d-val{font-size:clamp(30px,4.5vw,46px)}
+.part.wide .pred-out{max-width:720px}
+.addbox{border:1px dashed var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.addform{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.addform{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.addform{grid-template-columns:minmax(0,1fr)}}
+.addform label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+.addform input,.addform select{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;text-transform:none;letter-spacing:0;font-weight:400}
+.addform .full{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.formmsg{font-size:14px}
+.formmsg.ok{color:var(--firuza)} .formmsg.err{color:var(--qizil)}
+.pill.new{background:var(--zar-soft);color:var(--zar)}
+.rowdel{font-size:12px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.rowdel.danger{border-color:var(--qizil);color:var(--qizil)}
+.dbstate{font-size:13px;color:var(--muted)}
+/* ---- Kirish, qabulxona, xonalar ---- */
+.who{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.who .pill{background:var(--lapis-soft);color:var(--lapis)}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:8px}
+.btn.ok{background:var(--r-toza);border-color:var(--r-toza);color:var(--r-ink)}
+.btn.warn{background:var(--r-iflos);border-color:var(--r-iflos);color:var(--r-ink-y)}
+.btn.danger{border-color:var(--qizil);color:var(--qizil)}
+.big-btn{padding:10px 18px;font-size:15px}
+select.sm{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:auto}
+.gate{display:flex;justify-content:center;padding-block:24px}
+.gate-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:560px;width:100%;display:flex;flex-direction:column;gap:14px}
+.gate-card h2{font-size:24px}
+.gate-card p{margin:0;color:var(--muted)}
+.gform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:end}
+.gform.one{grid-template-columns:minmax(0,1fr)}
+
+/* ===== Mehmonlar sayti ===== */
+/* ===== mehmonlar sayti: navigatsiya ===== */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.g-nav{display:flex;gap:4px;justify-content:space-around;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;order:-1}
+.g-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;color:var(--muted);font-size:12px;font-weight:600;padding:6px 4px;border-radius:10px;cursor:pointer;min-width:0}
+.g-nav button svg,.g-tile svg,.g-sech svg,.g-search svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.g-nav button[aria-current="page"]{color:var(--firuza);background:var(--firuza-soft)}
+.g-nav span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+@media (max-width:760px){
+  .g-nav{order:0;position:fixed;left:0;right:0;bottom:0;z-index:20;border-radius:0;border-width:1px 0 0;padding:6px max(8px,env(safe-area-inset-left,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-right,0px))}
+  .gsite{padding-bottom:84px}
+}
+.g-crumb{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.g-back{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer}
+.g-back:hover{border-color:var(--firuza)}
+.g-path{color:var(--muted);font-size:14px}
+.g-sech{display:flex;gap:14px;align-items:center}.g-sech svg{width:40px;height:40px;padding:8px;border-radius:12px;background:var(--firuza-soft);color:var(--firuza);box-sizing:content-box}
+.g-sech h1{font-size:clamp(24px,4vw,30px)}.g-sech p{margin:2px 0 0;color:var(--muted)}
+.g-search{position:relative}
+.g-search svg{position:absolute;left:14px;top:13px;color:var(--muted)}
+.g-search input{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 46px}
+.g-search input:focus{border-color:var(--firuza);outline:none;box-shadow:0 0 0 3px var(--firuza-soft)}
+.g-sres{display:flex;flex-direction:column;margin-top:6px;background:var(--panel);border-radius:12px;overflow:hidden}
+.g-sres:empty{display:none}.g-sres{border:1px solid var(--line)}
+.g-sres button{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left;border:0;border-top:1px solid var(--line);background:none;padding:10px 14px;cursor:pointer}
+.g-sres button:first-child{border-top:0}.g-sres button:hover{background:var(--firuza-soft)}.g-sres small{color:var(--muted)}.g-sres .empty{padding:10px 14px}
+.g-notes{display:flex;flex-direction:column;gap:6px}.g-notes h2,.g-group h2{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-family:var(--body)}
+.g-note{display:flex;justify-content:space-between;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);border-left:4px solid var(--lapis);background:var(--panel);border-radius:10px;padding:10px 14px;cursor:pointer}
+.g-note.n-ok{border-left-color:var(--r-toza)}.g-note.n-bad{border-left-color:var(--qizil)}.g-note.n-wait{border-left-color:var(--r-iflos)}
+.g-group{display:flex;flex-direction:column;gap:8px}
+.g-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.g-tile{position:relative;display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:14px;cursor:pointer;min-width:0}
+.g-tile:hover{border-color:var(--firuza);box-shadow:0 2px 0 var(--firuza-soft)}
+.g-tile svg{width:26px;height:26px;padding:9px;border-radius:12px;background:var(--firuza-soft);color:var(--firuza);box-sizing:content-box}
+.g-tt{display:flex;flex-direction:column;min-width:0}.g-tt small{color:var(--muted);font-size:13px;line-height:1.35}
+.g-tile .badge{position:absolute;top:10px;right:10px}.badge.soft{background:var(--lapis-soft);color:var(--lapis)}
+.wallet.compact{padding:20px}.wallet.compact .w-bal{font-size:clamp(30px,6vw,42px)}
+.w-acts{display:flex;gap:8px;flex-wrap:wrap}.w-btn.ghost{background:transparent;color:var(--on-accent);border:1px solid currentColor}
+.g-card-l{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}.g-card-l h2{font-size:19px}
+.g-card-l .gform .full{grid-column:1/-1}
+textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;resize:vertical}
+.br-types{grid-column:1/-1;border:0;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.br-types legend{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.br-type{display:flex!important;flex-direction:row!important;gap:10px!important;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;text-transform:none!important;letter-spacing:0!important;font-weight:400!important;color:var(--ink)!important;font-size:14px!important}
+.br-type:has(input:checked){border-color:var(--firuza);box-shadow:0 0 0 3px var(--firuza-soft)}
+.br-type input{width:auto!important;margin-top:3px}.br-type span{display:flex;flex-direction:column}.br-type small{color:var(--muted)}
+.br-est{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;background:var(--firuza-soft);border-radius:12px;padding:12px 14px}.br-est b{font-size:22px}.br-est small{color:var(--muted);flex-basis:100%}
+.pill.gst-kutilmoqda{background:var(--zar-soft);color:var(--zar)}.pill.gst-qabul,.pill.gst-tayyor{background:var(--firuza-soft);color:var(--firuza)}.pill.gst-rad{background:var(--line);color:var(--muted)}
+.qty{display:flex;align-items:center;gap:6px;flex:none}.qty b{min-width:18px;text-align:center}
+.g-row.tot{background:var(--bg)}.g-row.col{flex-direction:column;align-items:flex-start;gap:6px}
+.reply{background:var(--firuza-soft);border-radius:10px;padding:8px 10px;font-size:14px}
+.cart{display:flex;flex-direction:column;gap:10px;background:var(--panel);border:2px solid var(--firuza);border-radius:16px;padding:16px;scroll-margin-top:16px}.cart h2{font-size:19px}
+.cart-w{grid-column:1/-1}
+.cart-bar{position:sticky;bottom:12px;z-index:5;display:flex;justify-content:space-between;gap:10px;background:var(--firuza);color:var(--on-accent);border-radius:14px;padding:12px 16px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+@media (max-width:760px){.cart-bar{bottom:84px}}
+.about-g{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px}@media (max-width:820px){.about-g{grid-template-columns:minmax(0,1fr)}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0}.facts div{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel)}
+.facts dt{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}.facts dd{margin:2px 0 0;font-weight:700}
+.gmap{width:100%;height:auto}.gmap .c{fill:var(--firuza-soft);stroke:var(--panel);stroke-width:1}.gmap .nb{fill:var(--bg);stroke:var(--line)}
+.rules{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.faq{display:flex;flex-direction:column;gap:6px}.faq details{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 14px}
+.faq summary{cursor:pointer;font-weight:700}.faq p{margin:8px 0 0;color:var(--muted)}
+.pf-acts{display:flex;gap:8px;flex-wrap:wrap}
+.gate-back{margin:8px 0 0;text-align:center;border-top:1px solid var(--line);padding-top:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}@media (max-width:1200px){.g3{grid-template-columns:minmax(0,1fr)}}
+.msgtxt{color:var(--ink)!important;font-size:14px!important;flex-basis:100%}
+
+.gsite{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:20px;padding-block:14px 0}
+.g-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.g-brand .tb-brand{user-select:none;-webkit-user-select:none;cursor:default}
+.g-brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.g-brand .tb-brand{font-size:24px}
+.g-tag{color:var(--muted);font-size:14px}
+.g-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.g-who{display:flex;align-items:center;gap:8px}
+.g-who .av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--firuza);color:var(--on-accent);font-weight:700;font-size:13px}
+.g-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.g-foot{color:var(--muted);font-size:13px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px}
+.g-foot a{color:var(--lapis)}
+.g-auth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:stretch}
+@media (max-width:820px){.g-auth{grid-template-columns:minmax(0,1fr)}}
+.g-auth-hero{border-radius:18px;padding:28px;color:var(--on-accent);background:linear-gradient(150deg,var(--lapis),var(--firuza));display:flex;flex-direction:column;gap:12px}
+.g-auth-hero .tb-brand{font-size:30px;color:var(--on-accent)}.g-auth-hero .tb-brand span{color:inherit;opacity:.8}
+.g-auth-hero p{margin:0;font-size:17px;line-height:1.45;max-width:40ch}
+.g-perks{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.g-perks li::before{content:"✓";margin-right:8px;font-weight:700}
+.g-auth-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.g-auth-card.solo{max-width:560px;margin:30px auto}
+.g-auth-card h2{font-size:24px}.g-sub{margin:0;color:var(--muted)}
+.g-switch{margin:4px 0 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.linkbtn{background:none;border:0;padding:0;color:var(--lapis);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.notice-s{margin:0;padding:10px 12px;border-radius:10px;background:var(--zar-soft);color:var(--ink);font-size:14px}
+.g-hello{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.g-hello h1{font-size:clamp(24px,4vw,32px)}
+.pill.tier{font-weight:700}.pill.t0{background:var(--zar-soft);color:var(--zar)}.pill.t1{background:var(--line);color:var(--ink)}.pill.t2{background:var(--r-iflos);color:var(--r-ink-y)}.pill.t3{background:var(--lapis-soft);color:var(--lapis)}
+.wallet{border-radius:20px;padding:24px;color:var(--on-accent);background:linear-gradient(135deg,var(--lapis),var(--firuza));display:flex;flex-direction:column;gap:14px}
+.w-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.w-lbl{font-size:12px;text-transform:uppercase;letter-spacing:.07em;opacity:.85;font-weight:600;display:block}
+.w-bal{font-family:var(--display);font-size:clamp(34px,7vw,52px);line-height:1;font-variant-numeric:tabular-nums}.w-bal small{font-size:.4em;font-weight:600}
+.w-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.w-grid b{font-size:20px}.w-grid span{display:block}
+.w-grid em{font-style:normal;opacity:.85}
+@media (max-width:520px){.w-grid{grid-template-columns:minmax(0,1fr)}}
+.w-warn{font-weight:700;background:color-mix(in srgb,var(--panel) 85%,transparent);color:var(--qizil);border-radius:8px;padding:2px 8px;display:inline-block;margin-top:4px}
+.w-pend{background:color-mix(in srgb,var(--panel) 20%,transparent);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.w-pend .btn{color:var(--ink)}
+.g-auth-hero .tb-brand{border:0;padding:0;margin:0}
+.w-btn{align-self:flex-start;background:var(--panel);color:var(--ink);border-color:transparent;font-weight:700;padding:10px 18px}
+.w-form{background:var(--panel);color:var(--ink);border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:end}
+@media (max-width:520px){.w-form{grid-template-columns:minmax(0,1fr)}}
+.w-form label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+.w-form input,.w-form select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;text-transform:none;letter-spacing:0}
+.w-amts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}.w-amts .sel{border-color:var(--lapis);background:var(--lapis-soft);color:var(--lapis);font-weight:700}
+.w-form .btn.primary,.w-form .formmsg,.w-note{grid-column:1/-1}.w-note{margin:0;font-size:13px;color:var(--muted)}
+.g-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;border-bottom:1px solid var(--line)}
+.g-tabs button{flex:none;border:0;background:none;padding:10px 14px;cursor:pointer;color:var(--muted);font-weight:600;border-bottom:3px solid transparent}
+.g-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--firuza)}
+.g-body{display:flex;flex-direction:column;gap:12px;min-width:0}.g-body h2{font-size:20px}
+.g-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.g-row{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--line);align-items:center}.g-row:first-child{border-top:0}
+.g-row small{color:var(--muted)}.g-row .plus{color:var(--r-toza-t)}.g-row .minus{color:var(--qizil)}
+.price{text-align:right;white-space:nowrap}.price s{color:var(--muted);font-size:13px}
+.menu-h{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.g-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.g-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-card h3{font-size:17px;padding-right:56px}.g-card p{margin:0;color:var(--muted);font-size:14px}.g-card small{color:var(--muted)}
+.promo-b{position:absolute;top:12px;right:12px;background:var(--qizil);color:#fff;font-weight:800;border-radius:999px;padding:3px 10px;font-size:14px}
+.loy{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}.loy p{margin:0}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--firuza),var(--lapis))}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.tier-c{border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:2px;background:var(--panel)}
+.tier-c .big{font-size:26px}.tier-c small{color:var(--muted)}.tier-c.cur{border:2px solid var(--firuza);box-shadow:0 0 0 3px var(--firuza-soft)}
+.cl-bal{font-variant-numeric:tabular-nums}
+.op.cl .op-act input{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+.cl-num{width:120px}.cl-iz{width:150px}
+.ktable{width:100%;border-collapse:collapse}.ktable th{text-align:left;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:6px}
+.ktable td{padding:4px 6px;border-top:1px solid var(--line);vertical-align:middle}
+.ktable input,.ktable select{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;width:100%;min-width:90px}
+.k-act{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.k-h{font-size:15px;margin-top:6px}
+.gform .pwbox{position:relative;display:block}
+.gform .pwbox input{padding-right:44px}
+.pweye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;display:grid;place-items:center}
+.pweye:hover,.pweye.on{color:var(--ink);background:var(--line)}
+.pwchk{grid-column:1/-1;list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.pwchk li::before{content:"○";margin-right:6px}
+.pwchk li.ok{color:var(--firuza)}.pwchk li.ok::before{content:"✓"}
+.pwchk li.no{color:var(--qizil)}.pwchk li.no::before{content:"✕"}
+@media (max-width:520px){.gform{grid-template-columns:minmax(0,1fr)}}
+.gform label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+.gform input,.gform select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;text-transform:none;letter-spacing:0;font-weight:400}
+.gform .btn,.gform .formmsg{grid-column:1/-1}
+.notice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--zar-soft);border:1px solid var(--zar);border-radius:12px;padding:10px 14px;font-size:14px}
+.notice .bell{width:10px;height:10px;border-radius:50%;background:var(--zar);flex:none}
+.notice .op-act{margin-left:auto}
+.badge{display:inline-block;min-width:20px;padding:0 6px;border-radius:999px;background:var(--qizil);color:#fff;font-size:12px;line-height:20px;text-align:center}
+.sections button{position:relative}
+.sections .badge{position:absolute;top:6px;right:8px}
+.oplist{display:flex;flex-direction:column;gap:6px}
+.op{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.op-main{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;min-width:0}
+.op-main span:not(.pill){color:var(--muted);font-size:13px}
+.op-act{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pill.st-oromgohda{background:var(--firuza-soft);color:var(--firuza)}
+.pill.st-bron{background:var(--lapis-soft);color:var(--lapis)}
+.pill.st-ketgan{background:var(--line);color:var(--muted)}
+.roomsum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rs{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:2px}
+.rs b{font-family:var(--display);font-size:clamp(28px,4vw,40px);font-variant-numeric:tabular-nums;line-height:1.1}
+.rs span{font-weight:600}
+.rs-toza{background:var(--r-toza);color:var(--r-ink)} .rs-iflos{background:var(--r-iflos);color:var(--r-ink-y)} .rs-band{background:var(--r-band);color:var(--r-ink)}
+.rtools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chk{display:inline-flex;gap:6px;align-items:center;font-size:14px;cursor:pointer}
+.dot-y{background:var(--r-iflos);color:var(--r-ink-y)!important;border-radius:999px;padding:0 6px;opacity:1!important}
+.roomgrid{display:flex;flex-direction:column;gap:8px}
+.floor{display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:start}
+.fl{font-size:12px;color:var(--muted);font-weight:600;padding-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:4px}
+.room{border:0;border-radius:6px;min-height:38px;font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;padding:0 2px}
+.room.r-toza{background:var(--r-toza);color:var(--r-ink)} .room.r-iflos{background:var(--r-iflos);color:var(--r-ink-y)} .room.r-band{background:var(--r-band);color:var(--r-ink)}
+.room.sel{outline:3px solid var(--ink);outline-offset:1px}
+.roominfo{min-height:44px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:14px}
+.rn{font-family:var(--mono);padding:2px 8px;border-radius:6px}
+.rn.r-toza{background:var(--r-toza);color:var(--r-ink)} .rn.r-iflos{background:var(--r-iflos);color:var(--r-ink-y)} .rn.r-band{background:var(--r-band);color:var(--r-ink)}
+.lvl-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.lvl{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border:2px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;font-weight:600;font-size:14px;color:var(--ink)}
+.lvl svg{width:24px;height:24px;fill:none;stroke:var(--lvc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lvl:disabled{opacity:.4;cursor:not-allowed}
+.lvl[aria-selected="true"]{border-color:var(--lvc);background:var(--panel);box-shadow:inset 0 -4px 0 var(--lvc)}
+.lvl-win{border-top:5px solid var(--lvc);border-radius:12px;background:var(--bg);padding:18px;display:flex;flex-direction:column;gap:12px}
+.lvl-win h2{font-size:22px}
+.gate-card{max-width:620px}
+.rolebar{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-left:6px solid var(--lvc);background:var(--panel);border-radius:10px;padding:10px 14px}
+.rolebar b{font-family:var(--display);font-size:18px}
+.rolebar span{color:var(--muted);font-size:14px}
+.map .resort circle{fill:var(--qizil);stroke:var(--panel);stroke-width:2}
+.map .resort text{font-family:var(--body);font-weight:700;font-size:13px;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:4px}
+
+/* ================= Ilova qobig'i (PMS uslubi) ================= */
+body{padding-left:0;padding-right:0;padding-block:0}
+h1,h2,h3{font-family:var(--body);letter-spacing:0}
+.sec-head h2{font-size:17px;font-weight:700}
+.kpi b,.tf b,.pk b,.season b,.cl .cnt b,.rs b,.metrics b,.big{font-family:var(--body);font-weight:700}
+.card,section.card{border-radius:10px}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:calc(100vh - 64px)}
+.app.noside{grid-template-columns:minmax(0,1fr)}
+.side{background:var(--side-bg);color:var(--side-ink);position:sticky;top:0;height:100vh;overflow-y:auto;padding-block:max(18px,env(safe-area-inset-top,0px)) 18px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:12px;display:flex;flex-direction:column;gap:16px}
+.brand{display:flex;flex-direction:column;gap:2px;padding:0 8px}
+.brand b,.tb-brand,.gate-brand b{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.01em}
+.brand b span,.tb-brand span,.gate-brand b span{color:#7ea6ec}
+.brand small{color:var(--side-mute);font-size:12px}
+.side .rolebar{background:var(--side-hov);border-left-color:var(--lvc);flex-direction:column;gap:2px;padding:10px 12px}
+.side .rolebar b{font-family:var(--body);font-size:14px;color:#fff}
+.side .rolebar span{color:var(--side-mute);font-size:12px}
+.side .sections{display:flex;flex-direction:column;gap:14px;overflow:visible}
+.nav-g{display:flex;flex-direction:column;gap:2px}
+.nav-h{margin:0 0 4px;padding:0 10px;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--side-mute);font-weight:600}
+.side .sections button{flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;width:100%;min-width:0;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--side-ink);font-size:14px;font-weight:500;text-align:left}
+.side .sections button svg{width:18px;height:18px;flex:none}
+.side .sections button:hover{background:var(--side-hov);border-color:transparent}
+.side .sections button[aria-current="page"]{background:var(--side-act);color:#fff}
+.side .sections .badge{position:static;margin-left:auto}
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar2{position:relative;z-index:6;background:var(--panel);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:10px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+body::before{background:var(--panel)}
+.tb-l{display:flex;align-items:center;gap:16px;min-width:0}
+.tb-brand{color:var(--ink);font-size:21px;padding-right:16px;border-right:1px solid var(--line)}
+.tb-brand span{color:var(--lapis)}
+.tb-title{min-width:0}
+.tb-title h1{font-size:19px;font-weight:700;line-height:1.25;margin:0}
+.tb-title p{margin:2px 0 0;color:var(--muted);font-size:13px;max-width:80ch}
+.tb-r{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tb-date{font-size:13px;color:var(--muted);font-family:var(--mono)}
+.who{gap:10px}
+.who .av{width:32px;height:32px;border-radius:50%;background:var(--lvc,var(--lapis));color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.who-t{display:flex;flex-direction:column;line-height:1.2}
+.who-t b{font-size:13px} .who-t small{font-size:12px;color:var(--muted);font-weight:500}
+.content{width:100%;max-width:1360px;margin:0 auto;padding-block:20px 40px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+.app:not(.noside) .content{padding-left:20px}
+.view-intro{display:none}
+.view{gap:20px}
+.view-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.view-actions .dbstate{margin-left:auto}
+.demo-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;padding:10px 14px;border-radius:12px;border:1px dashed var(--zar);background:color-mix(in srgb,var(--zar) 12%,transparent);color:var(--ink);font-size:14px}
+#demo-btn.on{border-color:var(--zar);color:var(--zar)}
+.controls{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);gap:8px}
+.gate{padding-block:40px}
+.gate-brand{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:4px}
+.gate-brand b{font-size:30px;color:var(--ink)} .gate-brand b span{color:var(--lapis)}
+.gate-brand small{color:var(--muted);font-size:13px}
+.drawer-bg{position:fixed;inset:0;background:rgba(8,14,27,.45);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);z-index:21;background:var(--panel);border-left:1px solid var(--line);box-shadow:-12px 0 32px rgba(8,14,27,.18);overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding-block:max(18px,env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-bottom,0px));padding-left:20px;padding-right:max(20px,env(safe-area-inset-right,0px))}
+.dr-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dr-head h2{font-size:18px}
+.drawer .addform{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:520px){.drawer .addform{grid-template-columns:minmax(0,1fr)}}
+.op{background:var(--panel)}
+.oplist .op:hover{border-color:var(--lapis)}
+.hk .op-main b{font-family:var(--mono);font-size:16px}
+.op.hk{flex-wrap:nowrap}
+@media (min-width:1100px){.floor .tiles{grid-template-columns:repeat(25,minmax(0,1fr))}}
+#hk-card .oplist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+@media (prefers-reduced-motion:no-preference){.drawer{animation:drIn .18s ease-out}@keyframes drIn{from{transform:translateX(24px);opacity:.6}to{transform:none;opacity:1}}}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:sticky;top:0;height:auto;z-index:7;flex-direction:row;align-items:center;gap:8px;overflow-x:auto;overflow-y:hidden;padding-block:6px;padding-right:max(12px,env(safe-area-inset-right,0px))}
+  .brand,.side .rolebar,.nav-h{display:none}
+  .side .sections{flex-direction:row;gap:4px}
+  .nav-g{flex-direction:row;gap:4px}
+  .side .sections button{width:auto;white-space:nowrap;padding:8px 10px}
+  .tb-brand{border-right:0;padding-right:0}
+  .tb-l{flex-wrap:wrap;gap:4px 12px}
+  .tb-title p{display:none}
+}
+</style>
+
+<div class="gsite" id="gsite" hidden>
+  <header class="g-top">
+    <div class="g-brand"><b class="tb-brand" id="g-logo">Oromgoh<span>.uz</span></b><span class="g-tag" data-t="g_tag"></span></div>
+    <div class="g-right">
+      <div class="langs" role="group" aria-label="Til / Язык / Language"><button type="button" data-lang="uz">UZ</button><button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button></div>
+      <span class="g-who" id="g-who" hidden><span class="av" id="g-who-av" aria-hidden="true"></span><b id="g-who-n"></b></span>
+      <button type="button" class="btn sm" id="g-out" hidden data-t="lock"></button>
+    </div>
+  </header>
+  <main class="g-main" id="g-main"></main>
+  <footer class="g-foot"><span data-t="g_foot"></span></footer>
+</div>
+<header class="topbar2">
+      <div class="tb-l"><b class="tb-brand">Oromgoh<span>.uz</span></b><div class="tb-title"><h1 id="pg-title"></h1><p id="pg-sub"></p></div></div>
+      <div class="tb-r">
+        <span class="tb-date" id="tb-date"></span>
+        <div class="langs" role="group" aria-label="Til / Язык / Language"><button type="button" data-lang="uz">UZ</button><button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button></div>
+        <button type="button" class="btn sm" id="to-guest" hidden><span aria-hidden="true">← </span><span data-t="to_guest"></span></button>
+        <div class="who" id="who" hidden><span class="av" id="who-av" aria-hidden="true"></span><span class="who-t"><b id="who-name"></b><small id="who-role"></small></span><button type="button" class="btn sm" id="lock-btn" data-t="lock"></button></div>
+      </div>
+    </header>
+<div class="app noside" id="app">
+  <aside class="side" id="side" hidden>
+    <div class="rolebar" id="rolebar"></div>
+    <nav class="sections" id="sections" aria-label="Menu">
+      <div class="nav-g"><p class="nav-h" data-t="ng_ops"></p>
+      <button type="button" data-go="qabulxona" data-roles="menejer qabulxona"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V10h14v10M9 20v-5h6v5"/><path d="M12 4l8 6H4z"/></svg><span data-t="nav_qabulxona"></span></button>
+      <button type="button" data-go="xonalar" data-roles="menejer qabulxona tozalovchi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span data-t="nav_xonalar"></span></button>
+      <button type="button" data-go="xodimlar" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M17 8v6M14 11h6"/></svg><span data-t="nav_xodimlar"></span><b class="badge" id="req-badge" hidden></b></button>
+      <button type="button" data-go="mijozlar" data-roles="menejer qabulxona"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M16 14.5h2"/><path d="M6 6l9-3 1 3"/></svg><span data-t="nav_mijozlar"></span><b class="badge" id="tu-badge" hidden></b></button>
+      <button type="button" data-go="xizmatlar" data-roles="menejer qabulxona"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M9 13v8"/><path d="M17 3c-2 0-3 2.5-3 6s1 4 3 4v8"/></svg><span data-t="nav_xizmatlar"></span></button>
+      </div>
+      <div class="nav-g"><p class="nav-h" data-t="ng_an"></p>
+      <button type="button" data-go="umumiy" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c3 .2 5.5 2 5.5 4.8"/></svg><span data-t="nav_umumiy"></span></button>
+      <button type="button" data-go="joylar" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15 12 21 12 21z"/><circle cx="12" cy="10" r="2.4"/></svg><span data-t="nav_joylar"></span></button>
+      <button type="button" data-go="xarita" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span data-t="nav_xarita"></span></button>
+      <button type="button" data-go="solishtir" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M17 4v16M3 9h8M13 15h8"/></svg><span data-t="nav_solishtir"></span></button>
+      <button type="button" data-go="kanallar" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11v2a1 1 0 0 0 1 1h2l5 4V6L7 10H5a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg><span data-t="nav_kanallar"></span></button>
+      <button type="button" data-go="vaqt" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span data-t="nav_vaqt"></span></button>
+      <button type="button" data-go="kelajak" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 4-6"/><path d="M16 9l5-4" stroke-dasharray="2 2"/><circle cx="21" cy="5" r="1.4"/></svg><span data-t="nav_kelajak"></span></button>
+      <button type="button" data-go="pandemiya" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v4.5M12 16.5V21M3 12h4.5M16.5 12H21M5.6 5.6l3.2 3.2M15.2 15.2l3.2 3.2M5.6 18.4l3.2-3.2M15.2 8.8l3.2-3.2"/></svg><span data-t="nav_pandemiya"></span></button>
+      <button type="button" data-go="guruhlar" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><circle cx="12" cy="17" r="3"/></svg><span data-t="nav_guruhlar"></span></button>
+      </div>
+      <div class="nav-g"><p class="nav-h" data-t="ng_ml"></p>
+      <button type="button" data-go="bashorat" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg><span data-t="nav_bashorat"></span></button>
+      </div>
+      <div class="nav-g"><p class="nav-h" data-t="ng_data"></p>
+      <button type="button" data-go="royxat" data-roles="menejer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span data-t="nav_royxat"></span></button>
+      </div>
+    </nav>
+  </aside>
+  <div class="main">
+    <div class="wrap content">
+  <div class="demo-bar" id="demo-bar" hidden role="status"><span><b data-t="demo_h"></b> <span data-t="demo_p"></span></span><button type="button" class="btn sm" id="demo-off" data-t="demo_off"></button></div>
+  <div class="notice" id="mgr-notice" hidden role="status"></div>
+  <section class="gate" id="gate" aria-live="polite"><div class="gate-card" id="gate-card"></div></section>
+  <div class="controls" id="controls" hidden>
+    <div class="filterbox" id="filterbox">
+      <div class="filter-label"><span class="eyebrow" data-t="f_label"></span><span class="hint" data-t="f_hint"></span></div>
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <form class="searchrow" id="sform">
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <input id="sq" type="search" list="sopts" autocomplete="off">
+          <datalist id="sopts"></datalist>
+        </div>
+        <button class="btn primary" type="submit" data-t="f_show"></button>
+        <button class="btn" type="button" id="sclear" data-t="f_clear"></button>
+      </form>
+      <div class="msg" id="smsg" role="status"></div>
+      <nav class="crumbs" id="crumbs"></nav>
+    </div>
+    <p class="hint" id="nofilter" hidden></p>
+  </div>
+
+  <!-- UMUMIY -->
+  <div class="view" data-view="umumiy">
+    <p class="view-intro" data-t="i_umumiy"></p>
+    <div class="kpis" id="kpis"></div>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_tarkib"></h2><p id="sub-tf"></p></div>
+      <div class="tf-groups">
+        <div class="tf-group"><div class="tf-head"><span class="eyebrow" data-t="g_married"></span><b id="tg-1"></b></div><div class="tf-row" id="tf-1"></div></div>
+        <div class="tf-group"><div class="tf-head"><span class="eyebrow" data-t="g_single"></span><b id="tg-2"></b></div><div class="tf-row" id="tf-2"></div></div>
+        <div class="tf-group"><div class="tf-head"><span class="eyebrow" data-t="g_kids"></span><b id="tg-3"></b></div><div class="tf-row" id="tf-3"></div></div>
+      </div>
+      <div class="tf-split" id="tf-split" aria-hidden="true"></div>
+      <p class="note" id="note-tf"></p>
+    </section>
+  </div>
+
+  <!-- JOYLAR -->
+  <div class="view" data-view="joylar">
+    <p class="view-intro" data-t="i_joylar"></p>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 id="h-m"></h2><p data-t="click_m"></p></div><div class="list" id="l-m"></div></section>
+      <section class="card"><div class="sec-head"><h2 id="h-d"></h2><p data-t="click_d"></p></div><div class="list" id="l-d"></div><button class="btn more" type="button" id="more-d" hidden></button></section>
+    </div>
+    <section class="card">
+      <div class="sec-head"><h2 id="h-v"></h2><p id="sub-v"></p></div>
+      <div class="legend"><span style="--c:var(--lapis)" data-t="lg_male"></span><span style="--c:var(--zar)" data-t="lg_female"></span></div>
+      <div class="cols2" id="l-v"></div>
+      <button class="btn more" type="button" id="more-v" hidden></button>
+    </section>
+  </div>
+
+  <!-- XARITA -->
+  <div class="view" data-view="xarita">
+    <p class="view-intro" data-t="i_xarita"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_world"></h2><p id="sub-world"></p></div>
+      <div class="mapinfo" id="info-world" role="status"></div>
+      <div class="chartbox"><svg class="map" id="map-world" role="img"></svg></div>
+      <div class="maplegend" id="lg-world"></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_uzmap"></h2><p id="sub-uz"></p></div>
+      <div class="mapinfo" id="info-uz" role="status"></div>
+      <div class="chartbox"><svg class="map" id="map-uz" role="img"></svg></div>
+      <div class="maplegend" id="lg-uz"></div>
+      <p class="note" data-t="map_note"></p>
+    </section>
+  </div>
+
+  <!-- SOLISHTIRISH -->
+  <div class="view" data-view="solishtir">
+    <p class="view-intro" data-t="i_solishtir"></p>
+    <section class="card">
+      <div class="cmp-pick">
+        <label for="cmp-a"><span data-t="cmp_a"></span><select id="cmp-a"></select></label>
+        <button class="btn" type="button" id="cmp-swap" data-t="cmp_swap"></button>
+        <label for="cmp-b"><span data-t="cmp_b"></span><select id="cmp-b"></select></label>
+      </div>
+      <div class="tablebox"><table class="vs"><thead><tr><th data-t="cmp_metric"></th><th class="ha" id="cmp-ha"></th><th class="hb" id="cmp-hb"></th></tr></thead><tbody id="cmp-tb"></tbody></table></div>
+      <p class="note" data-t="cmp_note"></p>
+    </section>
+  </div>
+
+  <!-- KANALLAR -->
+  <div class="view" data-view="kanallar">
+    <p class="view-intro" data-t="i_kanallar"></p>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 data-t="h_kanal"></h2><p id="sub-k"></p></div><div class="list" id="l-k"></div><p class="note" id="note-k"></p></section>
+      <section class="card"><div class="sec-head"><h2 data-t="h_tavsiya"></h2><p id="sub-t"></p></div><div class="list" id="l-t"></div></section>
+    </div>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 data-t="h_dev"></h2><p id="sub-dev"></p></div><div class="list" id="l-dev"></div></section>
+      <section class="card"><div class="sec-head"><h2 data-t="h_brw"></h2><p id="sub-brw"></p></div><div class="list" id="l-brw"></div></section>
+    </div>
+    <p class="note" data-t="dev_note"></p>
+  </div>
+
+  <!-- VAQT -->
+  <div class="view" data-view="vaqt">
+    <p class="view-intro" data-t="i_vaqt"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_yil"></h2><p id="sub-yil"></p></div>
+      <div class="chartbox" id="ch-y"></div>
+      <div class="tablebox"><table class="yt">
+        <thead><tr><th data-t="th_year"></th><th class="r" data-t="th_total"></th><th class="r" data-t="tfp_erkak"></th><th class="r" data-t="tfp_ayol"></th><th class="r" data-t="tfp_yigit"></th><th class="r" data-t="tfp_qiz"></th><th class="r" data-t="tfp_ogil"></th><th class="r" data-t="tfp_qizbola"></th><th class="r" data-t="tfp_unk"></th></tr></thead>
+        <tbody id="yt-body"></tbody><tfoot id="yt-foot"></tfoot></table></div>
+      <p class="note" data-t="yil_note"></p>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_oy"></h2><p id="sub-oy"></p></div>
+      <div class="seasons" id="seasons"></div>
+      <div class="chartbox" id="ch-oy"></div>
+      <p class="note" data-t="oy_note"></p>
+    </section>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 data-t="h_kids"></h2><p data-t="h_kids_sub"></p></div><div class="chartbox" id="ch-kid"></div></section>
+      <section class="card"><div class="sec-head"><h2 data-t="h_age"></h2></div><div class="chartbox" id="ch-g"></div><p class="note" id="note-g"></p></section>
+    </div>
+  </div>
+
+  <!-- KELAJAK -->
+  <div class="view" data-view="kelajak">
+    <p class="view-intro" data-t="i_kelajak"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_fc"></h2><p id="sub-fc"></p></div>
+      <div class="fc-nums" id="fc-nums"></div>
+      <div class="legend"><span style="--c:var(--lapis)" data-t="fc_lg_act"></span><span style="--c:var(--firuza)" data-t="fc_lg_part"></span><span style="--c:var(--zar)" data-t="fc_lg_trend"></span></div>
+      <div class="chartbox" id="ch-fc"></div>
+      <details class="how"><summary data-t="how"></summary><ol class="steps"><li data-t="fc_s1"></li><li data-t="fc_s2"></li><li data-t="fc_s3"></li></ol></details>
+      <p class="note" data-t="fc_note"></p>
+    </section>
+  </div>
+
+  <!-- PANDEMIYA -->
+  <div class="view" data-view="pandemiya">
+    <p class="view-intro" data-t="i_pandemiya"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_pan"></h2><p id="sub-pan"></p></div>
+      <ol class="timeline">
+        <li><time data-t="tl1d"></time><span data-t="tl1"></span></li>
+        <li class="hot"><time data-t="tl2d"></time><span data-t="tl2"></span></li>
+        <li><time data-t="tl3d"></time><span data-t="tl3"></span></li>
+        <li><time data-t="tl4d"></time><span data-t="tl4"></span></li>
+        <li><time data-t="tl5d"></time><span data-t="tl5"></span></li>
+      </ol>
+      <div class="pan-kpis" id="pan-kpis"></div>
+      <div class="grid2 inner">
+        <div class="list">
+          <h3 class="h3" data-t="h_panmon"></h3>
+          <div class="legend"><span style="--c:var(--lapis)" data-t="ps_kelgan"></span><span style="--c:var(--firuza)" data-t="ps_chek"></span><span style="--c:var(--zar)" data-t="ps_majb"></span><span style="--c:var(--qizil)" data-t="ps_kelolm"></span></div>
+          <div class="chartbox" id="ch-pan"></div>
+        </div>
+        <div class="list">
+          <h3 class="h3" data-t="h_panstuck"></h3>
+          <div class="tf-row three" id="pan-tf"></div>
+          <div class="callout" data-th="pan_cost"></div>
+        </div>
+      </div>
+      <p class="note" data-t="pan_note"></p>
+    </section>
+  </div>
+
+  <!-- GURUHLAR -->
+  <div class="view" data-view="guruhlar">
+    <p class="view-intro" data-t="i_guruhlar"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_cl"></h2><p id="sub-cl"></p></div>
+      <div class="clusters" id="clusters"></div>
+    </section>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 data-t="how"></h2></div><ol class="steps"><li data-t="cl_s1"></li><li data-t="cl_s2"></li><li data-t="cl_s3"></li></ol></section>
+      <section class="card"><div class="sec-head"><h2 data-t="h_sil"></h2></div><div class="chartbox" id="ch-sil"></div><p class="note" id="note-cl"></p></section>
+    </div>
+  </div>
+
+  <!-- BASHORAT -->
+  <div class="view" data-view="bashorat">
+    <p class="view-intro" data-t="i_bashorat"></p>
+    <section class="card">
+      <form class="pred-form wide" id="pform"></form>
+      <div class="agree" id="p-agree" role="status"></div>
+      <div class="parts four">
+        <div class="part">
+          <div class="part-head"><span class="tag" data-t="part1"></span><h3 data-t="m_lr"></h3></div>
+          <div class="pred-out">
+            <div class="eyebrow" data-t="p_prob"></div><div class="big" id="p-val">—</div>
+            <div class="gauge"><i id="p-bar"></i><span id="p-avg"></span></div>
+            <div class="verdict" id="p-verdict"></div>
+          </div>
+          <div class="why"><div class="eyebrow" data-t="p_why"></div><div class="list" id="p-why"></div></div>
+          <div class="metrics" id="p-metrics"></div>
+          <details class="how"><summary data-t="how"></summary><ol class="steps"><li data-t="lr_s1"></li><li data-th="lr_s2"></li><li data-th="lr_s3"></li></ol></details>
+        </div>
+        <div class="part">
+          <div class="part-head"><span class="tag svm" data-t="part2"></span><h3 data-t="m_svm"></h3></div>
+          <div class="pred-out">
+            <div class="eyebrow" data-t="s_dist"></div><div class="big svm" id="s-val">—</div>
+            <div class="dgauge" aria-hidden="true"><span class="zero"></span><i id="s-bar"></i></div>
+            <div class="dscale"><span data-t="s_no"></span><span data-t="s_line"></span><span data-t="s_yes"></span></div>
+            <div class="verdict" id="s-verdict"></div>
+          </div>
+          <div class="why"><div class="eyebrow" data-t="s_why"></div><div class="list" id="s-why"></div></div>
+          <div class="metrics" id="s-metrics"></div>
+          <details class="how"><summary data-t="how"></summary><ol class="steps"><li data-th="svm_s1"></li><li data-th="svm_s2"></li><li data-th="svm_s3"></li></ol></details>
+        </div>
+        <div class="part wide">
+          <div class="part-head"><span class="tag tree" data-t="part3"></span><h3 data-t="m_tree"></h3></div>
+          <div class="pred-out">
+            <div class="eyebrow" data-t="t_leaf"></div><div class="big tree" id="t-val">—</div>
+            <div class="verdict" id="t-verdict"></div>
+          </div>
+          <div class="treebox" id="treebox"></div>
+          <div class="metrics" id="t-metrics"></div>
+          <details class="how"><summary data-t="how"></summary><ol class="steps"><li data-t="tree_s1"></li><li data-t="tree_s2"></li><li data-t="tree_s3"></li></ol></details>
+        </div>
+        <div class="part wide">
+          <div class="part-head"><span class="tag dest" data-t="part4"></span><h3 data-t="m_dest"></h3></div>
+          <div class="pred-out">
+            <div class="eyebrow" data-t="d_top"></div><div class="big" id="d-val">—</div>
+            <div class="verdict" id="d-verdict"></div>
+          </div>
+          <div class="dest-list" id="d-list"></div>
+          <div class="metrics" id="d-metrics"></div>
+          <details class="how"><summary data-t="how"></summary><ol class="steps"><li data-t="dest_s1"></li><li data-t="dest_s2"></li><li data-t="dest_s3"></li></ol></details>
+        </div>
+      </div>
+      <div class="list">
+        <h3 class="h3" data-t="h_cmpm"></h3>
+        <div class="tablebox"><table class="cmp"><thead><tr><th data-t="th_model"></th><th class="r" data-t="th_acc"></th><th class="r">AUC</th><th data-t="th_answer"></th><th data-t="th_test"></th></tr></thead><tbody id="cmp-body"></tbody></table></div>
+        <p class="note" id="cmp-note"></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- QABULXONA -->
+  <div class="view" data-view="qabulxona">
+    <p class="view-intro" data-t="i_qabulxona"></p>
+    <div class="view-actions"><button class="btn primary" type="button" id="open-add"><span aria-hidden="true">＋</span> <span data-t="add_btn"></span></button><span class="formmsg" id="op-msg" role="status"></span><button class="btn" type="button" id="demo-btn" hidden></button><span class="dbstate" id="dbstate"></span></div>
+    <div class="kpis" id="op-kpis"></div>
+    <div class="grid2">
+      <section class="card"><div class="sec-head"><h2 data-t="h_today_in"></h2><p id="sub-today-in"></p></div><div class="oplist" id="today-in"></div></section>
+      <section class="card"><div class="sec-head"><h2 data-t="h_today_out"></h2><p id="sub-today-out"></p></div><div class="oplist" id="today-out"></div></section>
+    </div>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_guests_now"></h2><p id="sub-guests"></p></div>
+      <div class="filters">
+        <label for="g-q"><span data-t="g_search"></span><input id="g-q" type="search" autocomplete="off"></label>
+        <label for="g-st"><span data-t="g_status"></span><select id="g-st"><option value="faol"></option><option value="oromgohda"></option><option value="bron"></option><option value="ketgan"></option><option value=""></option></select></label>
+      </div>
+      <div class="oplist" id="guest-list"></div>
+    </section>
+  </div>
+
+  <!-- XONALAR -->
+  <div class="view" data-view="xonalar">
+    <p class="view-intro" id="i-xonalar"></p>
+    <div class="roomsum" id="room-sum"></div>
+    <section class="card" id="hk-card">
+      <div class="sec-head"><h2 data-t="h_tasks"></h2><p id="sub-tasks"></p></div>
+      <div class="oplist" id="hk-tasks"></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_rooms"></h2><p id="sub-rooms"></p></div>
+      <div class="rtools">
+        <div class="tabs" id="korpus-tabs" role="tablist"></div>
+        <label class="chk"><input type="checkbox" id="only-dirty"> <span data-t="r_only_dirty"></span></label>
+      </div>
+      <div class="legend"><span style="--c:var(--r-toza)" data-t="r_clean"></span><span style="--c:var(--r-iflos)" data-t="r_dirty"></span><span style="--c:var(--r-band)" data-t="r_busy"></span></div>
+      <div class="roominfo" id="room-info" role="status"></div>
+      <div class="roomgrid" id="room-grid"></div>
+    </section>
+  </div>
+
+  <!-- XODIMLAR -->
+  <div class="view" data-view="xodimlar">
+    <p class="view-intro" data-t="i_xodimlar"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_requests"></h2><p id="sub-req"></p></div>
+      <div class="oplist" id="req-list"></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_staff"></h2><p id="sub-staff"></p></div>
+      <div class="oplist" id="staff-list"></div>
+      <p class="note" data-t="staff_note"></p>
+    </section>
+  </div>
+
+  <!-- MIJOZLAR (mehmon akkauntlari, hamyonlar) -->
+  <div class="view" data-view="mijozlar">
+    <p class="view-intro" data-t="i_mijozlar"></p>
+    <div class="kpis" id="cl-kpis"></div>
+    <span class="formmsg" id="cl-msg" role="status"></span>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_topups"></h2><p id="sub-topups"></p></div>
+      <div class="oplist" id="topup-list"></div>
+    </section>
+    <div class="g3">
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_gbron"></h2><p id="sub-gbron"></p></div>
+      <div class="oplist" id="gbron-list"></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_gord"></h2><p id="sub-gord"></p></div>
+      <div class="oplist" id="gord-list"></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_gmsg"></h2><p id="sub-gmsg"></p></div>
+      <div class="oplist" id="gmsg-list"></div>
+    </section>
+    </div>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_clients"></h2><p id="sub-clients"></p></div>
+      <div class="filters"><label for="cl-q"><span data-t="cl_q"></span><input id="cl-q" type="search"></label></div>
+      <div class="oplist" id="client-list"></div>
+      <p class="note" data-t="cl_note"></p>
+    </section>
+  </div>
+
+  <!-- XIZMATLAR (narx, chegirmalar, aksiyalar, menyu, qulayliklar) -->
+  <div class="view" data-view="xizmatlar">
+    <p class="view-intro" data-t="i_xizmatlar"></p>
+    <p class="note" id="k-ro" data-t="k_ro" hidden></p>
+    <section class="card"><div class="sec-head"><h2 data-t="h_soz"></h2><p data-t="h_soz_s"></p></div><div id="ed-sozlama"></div></section>
+    <section class="card"><div class="sec-head"><h2 data-t="gt_aksiyalar"></h2></div><div id="ed-aksiyalar"></div></section>
+    <section class="card"><div class="sec-head"><h2 data-t="gt_taomnoma"></h2></div><div id="ed-menyu"></div></section>
+    <section class="card"><div class="sec-head"><h2 data-t="gt_qulayliklar"></h2></div><div id="ed-qulayliklar"></div></section>
+  </div>
+
+  <!-- RO'YXAT -->
+  <div class="view" data-view="royxat">
+    <p class="view-intro" data-t="i_royxat"></p>
+    <section class="card">
+      <div class="sec-head"><h2 data-t="h_list"></h2><p id="sub-tab"></p></div>
+      <div class="filters">
+        <label for="f-q"><span data-t="fl_name"></span><input id="f-q" type="search"></label>
+        <label for="f-k"><span data-t="fl_channel"></span><select id="f-k"></select></label>
+      </div>
+      <div class="tablebox"><table>
+        <thead><tr><th class="r">№</th><th data-t="th_name"></th><th data-t="th_country"></th><th data-t="th_region"></th><th data-t="th_mintaqa"></th><th data-t="th_type"></th><th class="r" data-t="th_age"></th><th data-t="th_date"></th><th data-t="th_channel"></th><th data-t="th_rec"></th><th data-t="th_source"></th></tr></thead>
+        <tbody id="tbody"></tbody></table></div>
+      <div class="pager"><span id="pg-info"></span><div style="display:flex;gap:8px"><button class="btn" id="pg-prev" type="button" data-t="pg_prev"></button><button class="btn" id="pg-next" type="button" data-t="pg_next"></button></div></div>
+    </section>
+  </div>
+
+  <details class="about"><summary data-t="about"></summary><p class="note" data-t="about_text"></p></details>
+  <footer data-t="footer"></footer>
+    </div>
+  </div>
+</div>
+
+<div class="drawer-bg" id="drawer-bg" hidden></div>
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dr-h">
+  <div class="dr-head"><h2 id="dr-h" data-t="h_add"></h2><button type="button" class="btn sm" id="close-add" data-t="close"></button></div>
+  <form class="addform" id="addform" novalidate>
+          <label for="a-ism"><span data-t="a_ism"></span><input id="a-ism" maxlength="60" required autocomplete="off"></label>
+          <label for="a-davlat"><span data-t="a_davlat"></span><select id="a-davlat"></select></label>
+          <label for="a-hudud"><span data-t="a_hudud"></span><select id="a-hudud"></select></label>
+          <label for="a-holat"><span data-t="a_holat"></span><select id="a-holat"><option value="oromgohda"></option><option value="bron"></option></select></label>
+          <label for="a-sana"><span data-t="a_sana"></span><input id="a-sana" type="date" min="2010-01-01"></label>
+          <label for="a-ketish"><span data-t="a_ketish"></span><input id="a-ketish" type="date"></label>
+          <label for="a-xona"><span data-t="a_xona"></span><select id="a-xona"></select></label>
+          <label for="a-jinsi"><span data-t="a_jinsi"></span><select id="a-jinsi"><option value="erkak"></option><option value="ayol"></option></select></label>
+          <label for="a-yosh"><span data-t="a_yosh"></span><input id="a-yosh" type="number" min="0" max="100" step="1" value="30"></label>
+          <label for="a-oila"><span data-t="a_oila"></span><select id="a-oila"><option value="turmush qurgan"></option><option value="turmush qurmagan"></option></select></label>
+          <label for="a-kanal"><span data-t="a_kanal"></span><select id="a-kanal"></select></label>
+          <label for="a-tavsiya" id="a-tavsiya-l" hidden><span data-t="a_tavsiya"></span><select id="a-tavsiya"></select></label>
+          <div class="full"><button class="btn primary big-btn" type="submit" id="a-save" data-t="a_save"></button><span class="formmsg" id="a-msg" role="status"></span></div>
+        </form>
+</aside>
+
+<script>
+const D = __DATA__;
+const M = __MODEL__;
+const KLI = __KL__;
+const MAPS = __MAPS__;
+const NM = __NAMES__;
+__JS__
+</script>
