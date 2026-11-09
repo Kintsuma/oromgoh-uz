@@ -427,11 +427,12 @@ function startData() {
 
 /* ================= Namuna (demo) rejim: taxminiy raqamlar, faqat xotirada ================= */
 let DEMO = false, REAL_DB = null;
-function memDB(seed) {
+function memDB(seed, onWrite) {
   const st = {}, subs = {}, col = c => st[c] || (st[c] = new Map());
+  const dump = () => Object.fromEntries(Object.entries(st).map(([c, m]) => [c, Object.fromEntries(m)]));
   Object.entries(seed).forEach(([c, o]) => Object.entries(o).forEach(([id, d]) => col(c).set(id, d)));
   const snap = c => ({ metadata: { fromCache: false }, docs: [...col(c)].map(([id, d]) => ({ id, data: () => ({ ...d }) })) });
-  const fire = c => (subs[c] || []).forEach(cb => cb(snap(c)));
+  const fire = c => { if (onWrite) onWrite(dump()); (subs[c] || []).forEach(cb => cb(snap(c))); };
   const sub = (c, cb) => { (subs[c] = subs[c] || []).push(cb); setTimeout(() => cb(snap(c)), 0); return () => { subs[c] = subs[c].filter(x => x !== cb); }; };
   const sp = p => { const i = p.indexOf('/'); return [p.slice(0, i), p.slice(i + 1)]; };
   return {
@@ -526,9 +527,9 @@ function watchSelf() {
 async function initApp() {
   GSTATE = 'loading'; renderGate();
   const fail = () => { INIT_FAILED = true; if (GMODE) return enterGuest(); GSTATE = 'outside'; renderGate(); };
-  if (!window.claude || typeof window.claude.use !== 'function') return fail();
   let db = null, user = null;
-  try { [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); } catch (e) {}
+  if (!window.claude || typeof window.claude.use !== 'function') { const lb = localBackend(); db = lb.db; user = lb.user; }   // claude.ai'dan tashqarida (GitHub Pages): brauzer xotirasi
+  else try { [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); } catch (e) {}
   if (!db || !user) return fail();
   DB = db; USER = user;
   try { UID = await user.id(); } catch (e) {}

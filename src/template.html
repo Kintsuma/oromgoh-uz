@@ -101,6 +101,8 @@ select.sm{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1
 
 /* ===== Mehmonlar sayti ===== */
 /* ===== mehmonlar sayti: navigatsiya ===== */
+[data-local]{display:none}.local-mode [data-local]{display:block}
+.local-note{margin:0;font-size:13px;color:var(--muted);background:var(--zar-soft);border-radius:10px;padding:8px 12px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .g-nav{display:flex;gap:4px;justify-content:space-around;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;order:-1}
 .g-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;color:var(--muted);font-size:12px;font-weight:600;padding:6px 4px;border-radius:10px;cursor:pointer;min-width:0}
@@ -381,6 +383,7 @@ body::before{background:var(--panel)}
     </div>
   </header>
   <main class="g-main" id="g-main"></main>
+  <p class="local-note" data-local><span data-t="local_note"></span> <button type="button" class="linkbtn" data-local-reset="1" data-t="local_reset"></button></p>
   <footer class="g-foot"><span data-t="g_foot"></span></footer>
 </div>
 <header class="topbar2">
@@ -424,6 +427,7 @@ body::before{background:var(--panel)}
   </aside>
   <div class="main">
     <div class="wrap content">
+  <p class="local-note" data-local><span data-t="local_note_s"></span> <button type="button" class="linkbtn" data-local-reset="1" data-t="local_reset"></button></p>
   <div class="demo-bar" id="demo-bar" hidden role="status"><span><b data-t="demo_h"></b> <span data-t="demo_p"></span></span><button type="button" class="btn sm" id="demo-off" data-t="demo_off"></button></div>
   <div class="notice" id="mgr-notice" hidden role="status"></div>
   <section class="gate" id="gate" aria-live="polite"><div class="gate-card" id="gate-card"></div></section>

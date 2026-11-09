@@ -587,6 +587,29 @@ function demoGuests(rnd, pick, NM_) {
   return { mijozlar, hamyon };
 }
 
+/* ---- claude.ai'dan tashqarida: ma'lumotlar shu brauzer xotirasida (namuna rejim) ---- */
+let LOCAL_MODE = false;
+const LOCAL_KAT = {
+  sozlama: { narx: 450000, muddatOy: 12, darajalar: [{ nom: 'Bronza', min: 0, ch: 0 }, { nom: 'Kumush', min: 3, ch: 5 }, { nom: 'Oltin', min: 6, ch: 10 }, { nom: 'Platina', min: 10, ch: 15 }] },
+  aksiyalar: { list: [{ nom: 'Kuzgi dam olish', matn: '3 kecha qolsangiz, 4-kechasi bepul', chegirma: 25, gacha: '2026-11-30' }, { nom: 'Yangi yil Chorvoqda', matn: '31-dekabr kechasi bayram dasturi va kechki ovqat narxga kiradi', chegirma: 10, gacha: '2026-12-25' }, { nom: 'Oilaviy paket', matn: '16 yoshgacha bolalar uchun turar joy yarim narxda', chegirma: 15, gacha: '2027-02-28' }, { nom: "Tug'ilgan kuningizda", matn: "Tug'ilgan kun haftasida kelganlarga tort va SPA sovg'a", chegirma: 20, gacha: '2027-12-31' }] },
+  menyu: { list: [{ tur: 'nonushta', nom: "O'zbekcha nonushta", tavsif: 'tandir non, qaymoq, asal, tuxum, choy', narx: 60000 }, { tur: 'nonushta', nom: "Bo'tqa va mevalar", tavsif: "suli bo'tqasi, mavsumiy mevalar", narx: 45000 }, { tur: 'tushlik', nom: 'Choyxona palovi', tavsif: "qo'y go'shti, sariq sabzi, no'xat", narx: 85000 }, { tur: 'tushlik', nom: 'Mastava', tavsif: "guruchli sho'rva, qatiq bilan", narx: 48000 }, { tur: 'tushlik', nom: "Lag'mon", tavsif: "qo'lda cho'zilgan xamir, mol go'shti", narx: 55000 }, { tur: 'kechki', nom: 'Shashlik assorti', tavsif: "qo'y, mol, tovuq; piyoz va non bilan", narx: 120000 }, { tur: 'kechki', nom: 'Chorvoq gulmohisi', tavsif: "tog' daryosi balig'i, sabzavotlar", narx: 135000 }, { tur: 'ichimlik', nom: "Ko'k choy (choynak)", tavsif: 'limon bilan', narx: 15000 }, { tur: 'ichimlik', nom: 'Kompot', tavsif: "o'rik va olcha", narx: 18000 }, { tur: 'shirinlik', nom: 'Chak-chak', tavsif: 'asal bilan', narx: 30000 }] },
+  qulayliklar: { list: [{ nom: 'Isitiladigan basseyn', vaqt: '08:00–22:00', matn: "ochiq va yopiq basseyn, bolalar qismi bilan", pullik: false }, { nom: 'SPA va hammom', vaqt: '10:00–21:00', matn: "fin saunasi, turk hammomi, massaj", pullik: true }, { nom: 'Wi-Fi', vaqt: '24/7', matn: "butun hududda bepul internet", pullik: false }, { nom: 'Bolalar maydonchasi', vaqt: '09:00–20:00', matn: "o'yinlar va animator", pullik: false }, { nom: "Tog' sayri", vaqt: 'har kuni 09:00', matn: "gid bilan Chimyon yo'laklari bo'ylab", pullik: true }, { nom: 'Transfer', vaqt: 'oldindan bron', matn: "Toshkent aeroporti va vokzalidan", pullik: true }, { nom: 'Sport zali', vaqt: '07:00–23:00', matn: "trenajyorlar, stol tennisi", pullik: false }, { nom: 'Qayiqda sayr', vaqt: 'aprel–oktyabr', matn: "Chorvoq suv omborida", pullik: true }] }
+};
+function localBackend() {
+  LOCAL_MODE = true; document.documentElement.classList.add('local-mode');
+  let saved = null, uid = null;
+  try { saved = JSON.parse(localStorage.getItem('oromgoh_db') || 'null'); } catch (e) {}
+  try { uid = localStorage.getItem('oromgoh_uid'); if (!uid) { uid = 'u_' + Math.random().toString(36).slice(2, 12); localStorage.setItem('oromgoh_uid', uid); } } catch (e) { uid = 'u_mehmon'; }
+  const seed = saved && typeof saved === 'object' ? saved : {};
+  if (!seed.katalog || !Object.keys(seed.katalog).length) seed.katalog = JSON.parse(JSON.stringify(LOCAL_KAT));
+  let tm = null;
+  const db = memDB(seed, dump => { clearTimeout(tm); tm = setTimeout(() => { try { localStorage.setItem('oromgoh_db', JSON.stringify(dump)); } catch (e) {} }, 150); });
+  return { db, user: { id: async () => uid, isOwner: async () => true, canEdit: async () => true } };
+}
+function localReset() { try { localStorage.removeItem('oromgoh_db'); sessionStorage.clear(); } catch (e) {} location.hash = ''; location.reload(); }
+document.addEventListener('click', e => { const b = e.target.closest('[data-local-reset]'); if (!b) return;
+  if (b.dataset.localReset === '1') { b.dataset.localReset = '2'; b.textContent = t('local_reset_q'); return; } localReset(); });
+
 /* ---- ishga tushirish ---- */
 if (GMODE) showGuestShell(true);
 initApp();

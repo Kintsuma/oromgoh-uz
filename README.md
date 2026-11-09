@@ -21,7 +21,11 @@ Chorvoq bo'yidagi shartli dam olish oromgohi uchun o'quv loyihasi. Unda ikkita s
 
 ## Ishga tushirish
 
-`index.html` yagona fayl, uni brauzerda ochsa bo'ladi. Ammo login, hamyon va bron funksiyalari claude.ai Artifact muhitining ma'lumotlar bazasiga (`window.claude.use('db')`) tayanadi. Shuning uchun ular to'liq faqat claude.ai'da e'lon qilingan holda ishlaydi. Oddiy brauzerda statistika va modellar ko'rinadi, kirish oynasi esa "claude.ai hisobi kerak" degan xabar chiqaradi.
+**Jonli sayt:** https://kintsuma.github.io/oromgoh-uz/
+
+`index.html` yagona fayl. Uni ikki xil joyda ochish mumkin:
+- **claude.ai'da** (Artifact sifatida): ma'lumotlar umumiy bazada saqlanadi, mehmonlar va xodimlar bir-birining o'zgarishlarini ko'radi.
+- **Oddiy brauzerda yoki GitHub Pages'da** sayt "namuna rejim"da ishlaydi: barcha funksiyalar ishlaydi, lekin ma'lumotlar faqat shu brauzerda saqlanadi. Saytda "Hammasini tozalash" tugmasi bor.
 
 Xodimlar paneliga kirishning ikki yo'li bor:
 - sahifa manzili oxiriga `#xodim` qo'shish;

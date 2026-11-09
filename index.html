@@ -312,6 +312,8 @@ select.sm{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1
 
 /* ===== Mehmonlar sayti ===== */
 /* ===== mehmonlar sayti: navigatsiya ===== */
+[data-local]{display:none}.local-mode [data-local]{display:block}
+.local-note{margin:0;font-size:13px;color:var(--muted);background:var(--zar-soft);border-radius:10px;padding:8px 12px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .g-nav{display:flex;gap:4px;justify-content:space-around;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;order:-1}
 .g-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;color:var(--muted);font-size:12px;font-weight:600;padding:6px 4px;border-radius:10px;cursor:pointer;min-width:0}
@@ -592,6 +594,7 @@ body::before{background:var(--panel)}
     </div>
   </header>
   <main class="g-main" id="g-main"></main>
+  <p class="local-note" data-local><span data-t="local_note"></span> <button type="button" class="linkbtn" data-local-reset="1" data-t="local_reset"></button></p>
   <footer class="g-foot"><span data-t="g_foot"></span></footer>
 </div>
 <header class="topbar2">
@@ -635,6 +638,7 @@ body::before{background:var(--panel)}
   </aside>
   <div class="main">
     <div class="wrap content">
+  <p class="local-note" data-local><span data-t="local_note_s"></span> <button type="button" class="linkbtn" data-local-reset="1" data-t="local_reset"></button></p>
   <div class="demo-bar" id="demo-bar" hidden role="status"><span><b data-t="demo_h"></b> <span data-t="demo_p"></span></span><button type="button" class="btn sm" id="demo-off" data-t="demo_off"></button></div>
   <div class="notice" id="mgr-notice" hidden role="status"></div>
   <section class="gate" id="gate" aria-live="polite"><div class="gate-card" id="gate-card"></div></section>
@@ -2157,6 +2161,9 @@ Object.assign(L.en, {
   kf_k: "Price factor", k_types: "Room types", gate_back: "Back to the guest site", cl_k_req: "New requests", to_guest: "Guest site"
 });
 L.uz.gn_bosh = "Bosh"; L.ru.gn_bosh = "Главная"; L.en.gn_bosh = "Home";
+Object.assign(L.uz, { local_note: "Namuna rejim: sayt claude.ai'dan tashqarida ochilgan, shuning uchun hamma ma'lumot faqat shu brauzerda saqlanadi. Xodimlar paneliga kirish: logotipni 5 marta bosing yoki manzilga #xodim qo'shing.", local_note_s: "Namuna rejim: ma'lumotlar faqat shu brauzerda saqlanadi.", local_reset: "Hammasini tozalash", local_reset_q: "Rostdan tozalansinmi? Yana bosing" });
+Object.assign(L.ru, { local_note: "Демо-режим: сайт открыт вне claude.ai, поэтому все данные хранятся только в этом браузере. Вход в панель сотрудников: 5 раз нажмите на логотип или добавьте #xodim к адресу.", local_note_s: "Демо-режим: данные хранятся только в этом браузере.", local_reset: "Сбросить всё", local_reset_q: "Точно сбросить? Нажмите ещё раз" });
+Object.assign(L.en, { local_note: "Demo mode: the site is open outside claude.ai, so all data is stored only in this browser. Staff panel: tap the logo 5 times or add #xodim to the address.", local_note_s: "Demo mode: data is stored only in this browser.", local_reset: "Reset everything", local_reset_q: "Really reset? Click again" });
 
 /* ================= Yordamchi funksiyalar ================= */
 let LANG = 'uz';
@@ -3119,11 +3126,12 @@ function startData() {
 
 /* ================= Namuna (demo) rejim: taxminiy raqamlar, faqat xotirada ================= */
 let DEMO = false, REAL_DB = null;
-function memDB(seed) {
+function memDB(seed, onWrite) {
   const st = {}, subs = {}, col = c => st[c] || (st[c] = new Map());
+  const dump = () => Object.fromEntries(Object.entries(st).map(([c, m]) => [c, Object.fromEntries(m)]));
   Object.entries(seed).forEach(([c, o]) => Object.entries(o).forEach(([id, d]) => col(c).set(id, d)));
   const snap = c => ({ metadata: { fromCache: false }, docs: [...col(c)].map(([id, d]) => ({ id, data: () => ({ ...d }) })) });
-  const fire = c => (subs[c] || []).forEach(cb => cb(snap(c)));
+  const fire = c => { if (onWrite) onWrite(dump()); (subs[c] || []).forEach(cb => cb(snap(c))); };
   const sub = (c, cb) => { (subs[c] = subs[c] || []).push(cb); setTimeout(() => cb(snap(c)), 0); return () => { subs[c] = subs[c].filter(x => x !== cb); }; };
   const sp = p => { const i = p.indexOf('/'); return [p.slice(0, i), p.slice(i + 1)]; };
   return {
@@ -3218,9 +3226,9 @@ function watchSelf() {
 async function initApp() {
   GSTATE = 'loading'; renderGate();
   const fail = () => { INIT_FAILED = true; if (GMODE) return enterGuest(); GSTATE = 'outside'; renderGate(); };
-  if (!window.claude || typeof window.claude.use !== 'function') return fail();
   let db = null, user = null;
-  try { [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); } catch (e) {}
+  if (!window.claude || typeof window.claude.use !== 'function') { const lb = localBackend(); db = lb.db; user = lb.user; }   // claude.ai'dan tashqarida (GitHub Pages): brauzer xotirasi
+  else try { [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); } catch (e) {}
   if (!db || !user) return fail();
   DB = db; USER = user;
   try { UID = await user.id(); } catch (e) {}
@@ -3859,6 +3867,29 @@ function demoGuests(rnd, pick, NM_) {
   });
   return { mijozlar, hamyon };
 }
+
+/* ---- claude.ai'dan tashqarida: ma'lumotlar shu brauzer xotirasida (namuna rejim) ---- */
+let LOCAL_MODE = false;
+const LOCAL_KAT = {
+  sozlama: { narx: 450000, muddatOy: 12, darajalar: [{ nom: 'Bronza', min: 0, ch: 0 }, { nom: 'Kumush', min: 3, ch: 5 }, { nom: 'Oltin', min: 6, ch: 10 }, { nom: 'Platina', min: 10, ch: 15 }] },
+  aksiyalar: { list: [{ nom: 'Kuzgi dam olish', matn: '3 kecha qolsangiz, 4-kechasi bepul', chegirma: 25, gacha: '2026-11-30' }, { nom: 'Yangi yil Chorvoqda', matn: '31-dekabr kechasi bayram dasturi va kechki ovqat narxga kiradi', chegirma: 10, gacha: '2026-12-25' }, { nom: 'Oilaviy paket', matn: '16 yoshgacha bolalar uchun turar joy yarim narxda', chegirma: 15, gacha: '2027-02-28' }, { nom: "Tug'ilgan kuningizda", matn: "Tug'ilgan kun haftasida kelganlarga tort va SPA sovg'a", chegirma: 20, gacha: '2027-12-31' }] },
+  menyu: { list: [{ tur: 'nonushta', nom: "O'zbekcha nonushta", tavsif: 'tandir non, qaymoq, asal, tuxum, choy', narx: 60000 }, { tur: 'nonushta', nom: "Bo'tqa va mevalar", tavsif: "suli bo'tqasi, mavsumiy mevalar", narx: 45000 }, { tur: 'tushlik', nom: 'Choyxona palovi', tavsif: "qo'y go'shti, sariq sabzi, no'xat", narx: 85000 }, { tur: 'tushlik', nom: 'Mastava', tavsif: "guruchli sho'rva, qatiq bilan", narx: 48000 }, { tur: 'tushlik', nom: "Lag'mon", tavsif: "qo'lda cho'zilgan xamir, mol go'shti", narx: 55000 }, { tur: 'kechki', nom: 'Shashlik assorti', tavsif: "qo'y, mol, tovuq; piyoz va non bilan", narx: 120000 }, { tur: 'kechki', nom: 'Chorvoq gulmohisi', tavsif: "tog' daryosi balig'i, sabzavotlar", narx: 135000 }, { tur: 'ichimlik', nom: "Ko'k choy (choynak)", tavsif: 'limon bilan', narx: 15000 }, { tur: 'ichimlik', nom: 'Kompot', tavsif: "o'rik va olcha", narx: 18000 }, { tur: 'shirinlik', nom: 'Chak-chak', tavsif: 'asal bilan', narx: 30000 }] },
+  qulayliklar: { list: [{ nom: 'Isitiladigan basseyn', vaqt: '08:00–22:00', matn: "ochiq va yopiq basseyn, bolalar qismi bilan", pullik: false }, { nom: 'SPA va hammom', vaqt: '10:00–21:00', matn: "fin saunasi, turk hammomi, massaj", pullik: true }, { nom: 'Wi-Fi', vaqt: '24/7', matn: "butun hududda bepul internet", pullik: false }, { nom: 'Bolalar maydonchasi', vaqt: '09:00–20:00', matn: "o'yinlar va animator", pullik: false }, { nom: "Tog' sayri", vaqt: 'har kuni 09:00', matn: "gid bilan Chimyon yo'laklari bo'ylab", pullik: true }, { nom: 'Transfer', vaqt: 'oldindan bron', matn: "Toshkent aeroporti va vokzalidan", pullik: true }, { nom: 'Sport zali', vaqt: '07:00–23:00', matn: "trenajyorlar, stol tennisi", pullik: false }, { nom: 'Qayiqda sayr', vaqt: 'aprel–oktyabr', matn: "Chorvoq suv omborida", pullik: true }] }
+};
+function localBackend() {
+  LOCAL_MODE = true; document.documentElement.classList.add('local-mode');
+  let saved = null, uid = null;
+  try { saved = JSON.parse(localStorage.getItem('oromgoh_db') || 'null'); } catch (e) {}
+  try { uid = localStorage.getItem('oromgoh_uid'); if (!uid) { uid = 'u_' + Math.random().toString(36).slice(2, 12); localStorage.setItem('oromgoh_uid', uid); } } catch (e) { uid = 'u_mehmon'; }
+  const seed = saved && typeof saved === 'object' ? saved : {};
+  if (!seed.katalog || !Object.keys(seed.katalog).length) seed.katalog = JSON.parse(JSON.stringify(LOCAL_KAT));
+  let tm = null;
+  const db = memDB(seed, dump => { clearTimeout(tm); tm = setTimeout(() => { try { localStorage.setItem('oromgoh_db', JSON.stringify(dump)); } catch (e) {} }, 150); });
+  return { db, user: { id: async () => uid, isOwner: async () => true, canEdit: async () => true } };
+}
+function localReset() { try { localStorage.removeItem('oromgoh_db'); sessionStorage.clear(); } catch (e) {} location.hash = ''; location.reload(); }
+document.addEventListener('click', e => { const b = e.target.closest('[data-local-reset]'); if (!b) return;
+  if (b.dataset.localReset === '1') { b.dataset.localReset = '2'; b.textContent = t('local_reset_q'); return; } localReset(); });
 
 /* ---- ishga tushirish ---- */
 if (GMODE) showGuestShell(true);

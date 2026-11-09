@@ -277,3 +277,6 @@ Object.assign(L.en, {
   kf_k: "Price factor", k_types: "Room types", gate_back: "Back to the guest site", cl_k_req: "New requests", to_guest: "Guest site"
 });
 L.uz.gn_bosh = "Bosh"; L.ru.gn_bosh = "Главная"; L.en.gn_bosh = "Home";
+Object.assign(L.uz, { local_note: "Namuna rejim: sayt claude.ai'dan tashqarida ochilgan, shuning uchun hamma ma'lumot faqat shu brauzerda saqlanadi. Xodimlar paneliga kirish: logotipni 5 marta bosing yoki manzilga #xodim qo'shing.", local_note_s: "Namuna rejim: ma'lumotlar faqat shu brauzerda saqlanadi.", local_reset: "Hammasini tozalash", local_reset_q: "Rostdan tozalansinmi? Yana bosing" });
+Object.assign(L.ru, { local_note: "Демо-режим: сайт открыт вне claude.ai, поэтому все данные хранятся только в этом браузере. Вход в панель сотрудников: 5 раз нажмите на логотип или добавьте #xodim к адресу.", local_note_s: "Демо-режим: данные хранятся только в этом браузере.", local_reset: "Сбросить всё", local_reset_q: "Точно сбросить? Нажмите ещё раз" });
+Object.assign(L.en, { local_note: "Demo mode: the site is open outside claude.ai, so all data is stored only in this browser. Staff panel: tap the logo 5 times or add #xodim to the address.", local_note_s: "Demo mode: data is stored only in this browser.", local_reset: "Reset everything", local_reset_q: "Really reset? Click again" });
