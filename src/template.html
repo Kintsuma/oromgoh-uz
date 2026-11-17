@@ -99,6 +99,30 @@ select.sm{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1
 .gform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:end}
 .gform.one{grid-template-columns:minmax(0,1fr)}
 
+
+/* ===== yer shari ===== */
+.globe-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gl-title{font-size:15px}.gl-tools{margin-left:auto;display:flex;gap:6px}.gl-tools .btn{min-width:36px}
+.globe-wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.globe-wrap:has(.gl-side[hidden]){grid-template-columns:minmax(0,1fr)}
+@media (max-width:900px){.globe-wrap{grid-template-columns:minmax(0,1fr)}}
+.globe{max-width:640px;margin:0 auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.globe:active{cursor:grabbing}.globe:focus{outline:none}.globe:focus-visible .gl-sea{stroke:var(--lapis);stroke-width:3}
+.globe .gl-sea{fill:var(--sea)}.globe .gl-grat{fill:none;stroke:var(--line);stroke-width:.5;opacity:.7}
+.globe path.c{stroke:var(--panel);stroke-width:.5;vector-effect:non-scaling-stroke}
+.globe path.c.dim{opacity:.35}.globe path.c.sel{stroke:var(--ink);stroke-width:1.4;fill:color-mix(in srgb,var(--line) 70%,var(--panel))!important}
+.globe path.a1{stroke:var(--panel);stroke-width:.8;fill:var(--line);cursor:pointer;vector-effect:non-scaling-stroke}
+.globe path.a1.none{fill:color-mix(in srgb,var(--line) 70%,var(--panel));cursor:default}
+.globe path.a1:hover{opacity:.82}.globe path.a1[data-sel="1"]{stroke:var(--ink);stroke-width:2}
+.globe .gl-res circle{fill:var(--qizil);stroke:var(--panel);stroke-width:2}
+.globe .gl-res text{font-family:var(--body);font-weight:700;font-size:14px;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:4px;pointer-events:none}
+.globe text.lb{font-size:13px}
+.gl-side{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel);max-height:640px;overflow:auto}
+.gl-side h3{font-size:18px}.gl-side .hint{margin:0}
+.gl-list{display:flex;flex-direction:column;gap:2px}
+.gl-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:baseline;text-align:left;border:1px solid transparent;background:none;border-radius:8px;padding:6px 8px;cursor:pointer}
+.gl-row:hover{background:var(--bg)}.gl-row[aria-pressed="true"]{border-color:var(--lapis);background:var(--lapis-soft)}
+.gl-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gl-row b{font-family:var(--mono);font-variant-numeric:tabular-nums}.gl-row small{color:var(--muted);font-family:var(--mono)}
 /* ===== Mehmonlar sayti ===== */
 /* ===== mehmonlar sayti: navigatsiya ===== */
 [data-local]{display:none}.local-mode [data-local]{display:block}
@@ -486,9 +510,19 @@ body::before{background:var(--panel)}
     <p class="view-intro" data-t="i_xarita"></p>
     <section class="card">
       <div class="sec-head"><h2 data-t="h_world"></h2><p id="sub-world"></p></div>
+      <div class="globe-bar" id="globe-bar" hidden>
+        <button type="button" class="btn sm" id="gl-back" hidden><span aria-hidden="true">← </span><span data-t="gl_back"></span></button>
+        <b class="gl-title" id="gl-title"></b>
+        <span class="gl-tools"><button type="button" class="btn sm" id="gl-out" aria-label="−">−</button><button type="button" class="btn sm" id="gl-in" aria-label="+">+</button><button type="button" class="btn sm" id="gl-home" data-t="gl_home"></button></span>
+      </div>
       <div class="mapinfo" id="info-world" role="status"></div>
-      <div class="chartbox"><svg class="map" id="map-world" role="img"></svg></div>
+      <div class="globe-wrap" id="globe-wrap" hidden>
+        <svg class="globe map" id="globe" viewBox="0 0 800 800" role="img" tabindex="0"></svg>
+        <aside class="gl-side" id="gl-side" hidden></aside>
+      </div>
+      <div class="chartbox" id="flat-world"><svg class="map" id="map-world" role="img"></svg></div>
       <div class="maplegend" id="lg-world"></div>
+      <p class="note" data-t="gl_hint"></p>
     </section>
     <section class="card">
       <div class="sec-head"><h2 data-t="h_uzmap"></h2><p id="sub-uz"></p></div>
@@ -800,11 +834,14 @@ body::before{background:var(--panel)}
         </form>
 </aside>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
 const D = __DATA__;
 const M = __MODEL__;
 const KLI = __KL__;
 const MAPS = __MAPS__;
+const GEO = { world: __WORLD__, adm: __ADM__, dots: __DOTS__ };
 const NM = __NAMES__;
 __JS__
 </script>

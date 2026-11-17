@@ -3,7 +3,7 @@
 :root{
   --bg:#f5f7fb; --panel:#ffffff; --ink:#14213a; --muted:#5b6782; --line:#dfe4ef;
   --lapis:#1f4e9c; --lapis-soft:#e3ebf8; --firuza:#138a8a; --firuza-soft:#dff2f1;
-  --zar:#b9761c; --zar-soft:#f8ecd9; --on-accent:#ffffff; --qizil:#c0392b; --r-toza:#1f7f43; --r-iflos:#f2c230; --r-band:#c0392b; --r-ink:#ffffff; --r-ink-y:#2a2300; --r-toza-t:#1f7f43; --r-iflos-t:#9a7400; --side-bg:#0f1e3a; --side-ink:#c9d4ea; --side-mute:#7f8db0; --side-act:#2556a8; --side-hov:#18294a;
+  --zar:#b9761c; --zar-soft:#f8ecd9; --on-accent:#ffffff; --qizil:#c0392b; --sea:#e3edf8; --r-toza:#1f7f43; --r-iflos:#f2c230; --r-band:#c0392b; --r-ink:#ffffff; --r-ink-y:#2a2300; --r-toza-t:#1f7f43; --r-iflos-t:#9a7400; --side-bg:#0f1e3a; --side-ink:#c9d4ea; --side-mute:#7f8db0; --side-act:#2556a8; --side-hov:#18294a;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Noto Sans","Segoe UI",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -11,11 +11,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0e1424; --panel:#161e33; --ink:#e7ecf7; --muted:#9aa6c2; --line:#273252;
   --lapis:#7ea6ec; --lapis-soft:#1e2c4f; --firuza:#4cc3bd; --firuza-soft:#143535;
-  --zar:#e3a64f; --zar-soft:#3a2c17; --on-accent:#0e1424; --qizil:#ef7b6c; --r-toza:#3fb56c; --r-iflos:#e9c23a; --r-band:#e2604f; --r-ink:#0e1424; --r-ink-y:#1f1a00; --r-toza-t:#4cc87c; --r-iflos-t:#e9c23a; --side-bg:#080e1b; --side-ink:#c9d4ea; --side-mute:#6f7da0; --side-act:#2a4f8f; --side-hov:#121c33; color-scheme:dark}}
+  --zar:#e3a64f; --zar-soft:#3a2c17; --on-accent:#0e1424; --qizil:#ef7b6c; --sea:#0f1b33; --r-toza:#3fb56c; --r-iflos:#e9c23a; --r-band:#e2604f; --r-ink:#0e1424; --r-ink-y:#1f1a00; --r-toza-t:#4cc87c; --r-iflos-t:#e9c23a; --side-bg:#080e1b; --side-ink:#c9d4ea; --side-mute:#6f7da0; --side-act:#2a4f8f; --side-hov:#121c33; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0e1424; --panel:#161e33; --ink:#e7ecf7; --muted:#9aa6c2; --line:#273252;
   --lapis:#7ea6ec; --lapis-soft:#1e2c4f; --firuza:#4cc3bd; --firuza-soft:#143535;
-  --zar:#e3a64f; --zar-soft:#3a2c17; --on-accent:#0e1424; --qizil:#ef7b6c; --r-toza:#3fb56c; --r-iflos:#e9c23a; --r-band:#e2604f; --r-ink:#0e1424; --r-ink-y:#1f1a00; --r-toza-t:#4cc87c; --r-iflos-t:#e9c23a; --side-bg:#080e1b; --side-ink:#c9d4ea; --side-mute:#6f7da0; --side-act:#2a4f8f; --side-hov:#121c33; color-scheme:dark}
+  --zar:#e3a64f; --zar-soft:#3a2c17; --on-accent:#0e1424; --qizil:#ef7b6c; --sea:#0f1b33; --r-toza:#3fb56c; --r-iflos:#e9c23a; --r-band:#e2604f; --r-ink:#0e1424; --r-ink-y:#1f1a00; --r-toza-t:#4cc87c; --r-iflos-t:#e9c23a; --side-bg:#080e1b; --side-ink:#c9d4ea; --side-mute:#6f7da0; --side-act:#2a4f8f; --side-hov:#121c33; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;

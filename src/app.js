@@ -196,7 +196,9 @@ function buildMaps() {
 }
 function renderMaps(A, rows) {
   if (!mapsBuilt) buildMaps();
+  const globe = renderGlobe(A, rows);
   const byD = new Map(groupBy(rows, 'd').map(x => [x.k, x.n])), maxD = Math.max(1, ...byD.values());
+  if (!globe) {
   document.querySelectorAll('#map-world [data-d]').forEach(el => {
     const d = el.dataset.d, n = byD.get(d) || 0, c = colorFor(n, maxD);
     el.style.fill = c || ''; el.classList.toggle('none', !c); el.dataset.n = n; el.dataset.sel = st.d === d ? '1' : '0';
@@ -204,6 +206,7 @@ function renderMaps(A, rows) {
     el.innerHTML = `<title>${esc(nm(d))}: ${fmt(n)}</title>`;
   });
   $('sub-world').textContent = t('sub_world', { n: fmt(A.n), d: byD.size }); legend($('lg-world'), maxD); $('info-world').textContent = t('map_hover');
+  }
   const uzRows = rows.filter(r => r.d === UZ), byV = new Map(groupBy(uzRows, 'v').map(x => [x.k, x.n])), maxV = Math.max(1, ...byV.values()), minV = byV.size > 1 ? Math.min(...byV.values()) : null, uzT = uzRows.reduce((a, r) => a + r.n, 0);
   document.querySelectorAll('#map-uz path.c').forEach(el => {
     const v = el.dataset.v, n = byV.get(v) || 0, c = colorFor(n, maxV, minV);

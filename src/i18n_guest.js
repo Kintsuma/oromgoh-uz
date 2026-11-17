@@ -280,3 +280,22 @@ L.uz.gn_bosh = "Bosh"; L.ru.gn_bosh = "Главная"; L.en.gn_bosh = "Home";
 Object.assign(L.uz, { local_note: "Namuna rejim: sayt claude.ai'dan tashqarida ochilgan, shuning uchun hamma ma'lumot faqat shu brauzerda saqlanadi. Xodimlar paneliga kirish: logotipni 5 marta bosing yoki manzilga #xodim qo'shing.", local_note_s: "Namuna rejim: ma'lumotlar faqat shu brauzerda saqlanadi.", local_reset: "Hammasini tozalash", local_reset_q: "Rostdan tozalansinmi? Yana bosing" });
 Object.assign(L.ru, { local_note: "Демо-режим: сайт открыт вне claude.ai, поэтому все данные хранятся только в этом браузере. Вход в панель сотрудников: 5 раз нажмите на логотип или добавьте #xodim к адресу.", local_note_s: "Демо-режим: данные хранятся только в этом браузере.", local_reset: "Сбросить всё", local_reset_q: "Точно сбросить? Нажмите ещё раз" });
 Object.assign(L.en, { local_note: "Demo mode: the site is open outside claude.ai, so all data is stored only in this browser. Staff panel: tap the logo 5 times or add #xodim to the address.", local_note_s: "Demo mode: data is stored only in this browser.", local_reset: "Reset everything", local_reset_q: "Really reset? Click again" });
+/* ---- yer shari ---- */
+Object.assign(L.uz, { gl_back: "Yer shariga qaytish", gl_home: "Boshiga", gl_hover: "Globusni sudrab aylantiring, g'ildirak yoki +/− bilan yaqinlashtiring, davlatni bosing.",
+  gl_sel: "{x}: {n} ta mehmon", gl_all: "Butun dunyo", gl_side: "{n} ta mehmon · {h} ta hududdan. Xaritada {a} ta hudud chegarasi ko'rsatilgan; bo'yalganlaridan mehmon kelgan.",
+  gl_nomap: "Xaritada alohida chegarasi yo'q: {x}.", gl_filter: "Butun saytni shu davlat bo'yicha filtrlash", gl_unfilter: "Filtrni olib tashlash",
+  gl_hint: "Yer shari: davlatni bossangiz, globus o'sha davlatga yaqinlashadi va u hududlarga bo'linadi. Hududni bossangiz, butun sayt o'sha hudud bo'yicha filtrlanadi. Esc yoki \"Yer shariga qaytish\" — orqaga.",
+  gl_aria: "Aylanadigan yer shari: davlatlar mehmonlar soniga qarab bo'yalgan",
+  i_xarita: "Mehmonlar yer sharida: rang qanchalik to'q bo'lsa, u yerdan shuncha ko'p mehmon kelgan. Davlatni bossangiz, u yaqinlashib hududlarga bo'linadi. Pastda O'zbekiston viloyatlari xaritasi." });
+Object.assign(L.ru, { gl_back: "Вернуться к глобусу", gl_home: "В начало", gl_hover: "Вращайте глобус мышью, приближайте колесом или +/−, нажмите на страну.",
+  gl_sel: "{x}: {n} гостей", gl_all: "Весь мир", gl_side: "{n} гостей · из {h} регионов. На карте показаны границы {a} регионов; закрашены те, откуда были гости.",
+  gl_nomap: "Нет отдельной границы на карте: {x}.", gl_filter: "Отфильтровать весь сайт по этой стране", gl_unfilter: "Снять фильтр",
+  gl_hint: "Глобус: нажмите на страну — глобус приблизится к ней и покажет регионы. Нажмите на регион — весь сайт отфильтруется по нему. Esc или «Вернуться к глобусу» — назад.",
+  gl_aria: "Вращающийся глобус: страны окрашены по числу гостей",
+  i_xarita: "Гости на глобусе: чем темнее цвет, тем больше гостей оттуда. Нажмите на страну — она приблизится и разделится на регионы. Ниже карта областей Узбекистана." });
+Object.assign(L.en, { gl_back: "Back to the globe", gl_home: "Reset", gl_hover: "Drag to spin the globe, zoom with the wheel or +/−, click a country.",
+  gl_sel: "{x}: {n} guests", gl_all: "Whole world", gl_side: "{n} guests · from {h} regions. The map shows {a} region borders; shaded ones sent guests.",
+  gl_nomap: "No separate border on the map: {x}.", gl_filter: "Filter the whole site by this country", gl_unfilter: "Remove the filter",
+  gl_hint: "Globe: click a country to zoom in and split it into regions. Click a region to filter the whole site by it. Esc or \"Back to the globe\" goes back.",
+  gl_aria: "Spinning globe: countries shaded by number of guests",
+  i_xarita: "Guests on the globe: the darker the colour, the more guests came from there. Click a country to zoom in and see its regions. Below is the map of Uzbekistan's provinces." });

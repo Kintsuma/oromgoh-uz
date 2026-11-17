@@ -15,7 +15,9 @@ Chorvoq bo'yidagi shartli dam olish oromgohi uchun o'quv loyihasi. Unda ikkita s
   - xodimlarni tasdiqlash;
   - mijozlar hamyoni, bron, buyurtma va xabarlar;
   - xizmatlar va narxlarni sozlash;
-  - 2010–2026 yillar statistikasi, xaritalar, logistik regressiya, SVM, qaror daraxti, K-means va bashorat.
+  - 2010–2026 yillar statistikasi, 194 davlatdan mehmonlar, aylanadigan yer shari (davlatni bossangiz, yaqinlashib hududlarga bo'linadi) va O'zbekiston viloyatlari xaritasi, logistik regressiya, SVM, qaror daraxti, K-means va bashorat.
+
+> Xarita chegaralari: Natural Earth (jamoat mulki), world-atlas. Yer shari d3 va topojson kutubxonalari bilan chiziladi (cdnjs'dan yuklanadi; internet bo'lmasa tekis xarita ko'rsatiladi).
 
 > Ma'lumotlar sintetik. Ular Airbnb ochiq datasetini kengaytirish orqali yaratilgan va haqiqiy shaxslarga tegishli emas.
 
@@ -49,7 +51,7 @@ build.py            src/ dagi qismlardan index.html yig'adi
 src/template.html   HTML va CSS shablon
 src/*.js            i18n (uz/ru/en), statistika (app), ish jarayoni (ops), mehmonlar sayti (guest)
 src/data/           statistika kubi, model koeffitsientlari, klasterlar, xaritalar
-scripts/            datasetni kengaytirish, boyitish, modellar (Python), xarita yo'llari (Node)
+scripts/            datasetni kengaytirish (kengaytir.py, dunyo.py), boyitish, modellar (Python), xaritalar (build_maps.js, build_world.js)
 data/               oromgoh_dataset.zip — kengaytirilgan dataset
 docs/               rollar va kirish huquqlari jadvali
 ```

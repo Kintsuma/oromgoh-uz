@@ -7,7 +7,8 @@ h = r(S('template.html'))
 m = json.load(open(S('data', 'model.json'), encoding='utf-8')); m.pop('check', None)
 parts = {'__CSS__': r(S('base.css')), '__DATA__': r(S('data', 'data3.json')), '__MODEL__': json.dumps(m, ensure_ascii=False, separators=(',', ':')),
          '__KL__': r(S('data', 'klaster.json')), '__MAPS__': r(S('data', 'maps.json')), '__NAMES__': r(S('data', 'nomlar.json')),
-         '__JS__': '\n'.join(r(S(f)) for f in ['i18n.js', 'i18n_ops.js', 'i18n_guest.js', 'app.js', 'ops.js', 'guest.js'])}
+         '__WORLD__': r(S('data', 'world.topo.json')), '__ADM__': r(S('data', 'adm1.topo.json')), '__DOTS__': r(S('data', 'dots.json')),
+         '__JS__': '\n'.join(r(S(f)) for f in ['i18n.js', 'i18n_ops.js', 'i18n_guest.js', 'globe.js', 'app.js', 'ops.js', 'guest.js'])}
 for k, v in parts.items():
     if k not in ('__CSS__', '__JS__'): assert '</' not in v, k
     h = h.replace(k, v, 1)
