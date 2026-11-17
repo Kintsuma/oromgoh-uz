@@ -467,7 +467,7 @@ function gSection(w) {
     const v = +((GWAL || {}).tashriflar) || 0, nx = w.tier.next;
     const pctv = nx ? Math.min(100, Math.round(100 * (v - w.tier.min) / Math.max(1, nx.min - w.tier.min))) : 100;
     return `<div class="loy"><p>${t('loy_now', { t: esc(w.tier.nom), c: w.tier.ch, v })}</p>
-      <div class="bar" role="progressbar" aria-valuenow="${pctv}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pctv}%"></i></div>
+      <div class="loy-bar" role="progressbar" aria-valuenow="${pctv}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pctv}%"></i></div>
       <p class="hint">${nx ? t('loy_next', { n: nx.min - v, t: esc(nx.nom), c: nx.ch }) : t('loy_top')}</p></div>
       <div class="tiers">${w.tier.all.map((d, i) => `<div class="tier-c t${i} ${i === w.tier.idx ? 'cur' : ''}"><b>${esc(d.nom)}</b><span class="big">${d.ch}%</span><small>${t('loy_from', { n: d.min })}</small></div>`).join('')}</div>
       <p class="hint">${t('loy_how')}</p>`;
