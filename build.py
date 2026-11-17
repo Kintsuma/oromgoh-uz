@@ -12,5 +12,9 @@ parts = {'__CSS__': r(S('base.css')), '__DATA__': r(S('data', 'data3.json')), '_
 for k, v in parts.items():
     if k not in ('__CSS__', '__JS__'): assert '</' not in v, k
     h = h.replace(k, v, 1)
+HEAD = ('<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
+        '<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}'
+        '[hidden]{display:none!important}</style></head><body>\n')
+h = HEAD + h + '\n</body></html>\n'
 open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(h)
 print('index.html:', len(h.encode()) // 1024, 'KB')
